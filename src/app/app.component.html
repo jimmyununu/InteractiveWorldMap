@@ -512,15 +512,22 @@
     </svg>
   </div>
   <div class="info-column">
-    <div *ngFor="let country of countries">
-      <h3>{{ country.name }}</h3>
-      <p>Capital: {{ country.capitalCity }}</p>
-      <p>Region: {{ country.region.value }}</p>
-      <p>Income Level: {{ country.incomeLevel.value }}</p>
-      <p>Lending Type: {{ country.lendingType.value }}</p>
-      <p>ISO Code: {{ country.iso2Code }}</p>
+    <div *ngIf="hoveredCountryDetails">
+      <h3>{{ hoveredCountryDetails.name }}</h3>
+      <p>Capital: {{ hoveredCountryDetails.capitalCity }}</p>
+      <p>Region: {{ hoveredCountryDetails.region?.value }}</p>
+      <p>Income Level: {{ hoveredCountryDetails.incomeLevel?.value }}</p>
+      <p>Lending Type: {{ hoveredCountryDetails.lendingType?.value }}</p>
+      <p>ISO Code: {{ hoveredCountryDetails.iso2Code }}</p>
+    </div>
+
+    <div *ngIf="!hoveredCountryDetails">
+      <p>Hover over a country to see its details.</p>
     </div>
   </div>
+  
+  
+  
 </div>
 
 

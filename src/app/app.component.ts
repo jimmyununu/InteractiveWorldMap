@@ -11,50 +11,58 @@ import { CountryService } from './country.service';
 })
 export class AppComponent implements OnInit {
   countries: any[] = [];
+  hoveredCountryDetails: any = null;  
 
   constructor(
     private countryService: CountryService,
-    private renderer: Renderer2, 
-    private el: ElementRef 
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {}
 
   ngOnInit(): void {
+    // Fetch the list of countries
     this.countryService.getCountries().subscribe(
-      (data) => {
-        console.log('API Data:', data);
-        this.countries = data[1]; 
-      },
-      (error) => {
-        console.error('API Error:', error);
-      }
+      (data) => this.countries = data[1], 
+      (error) => console.error('API Error:', error)
     );
 
     this.addHoverListeners();
   }
 
  
-  onHover(event: MouseEvent): void {
+  onHover(event: MouseEvent, countryCode: string): void {
     const target = event.target as SVGElement;
     if (target) {
       this.renderer.setStyle(target, 'fill', 'purple'); 
+
+      this.countryService.getCountryDetails(countryCode).subscribe(
+        (data) => this.hoveredCountryDetails = data[1]?.[0] || null,
+        (error) => console.error('API Error:', error)
+      );
     }
   }
 
   onLeave(event: MouseEvent): void {
     const target = event.target as SVGElement;
     if (target) {
-      this.renderer.setStyle(target, 'fill', ''); 
+      this.renderer.setStyle(target, 'fill', '');  
+      this.hoveredCountryDetails = null;  
     }
   }
 
+  
   addHoverListeners(): void {
     const paths = this.el.nativeElement.querySelectorAll('svg path'); 
     paths.forEach((path: SVGElement) => {
-      this.renderer.listen(path, 'mouseover', (event) => this.onHover(event));
-      this.renderer.listen(path, 'mouseout', (event) => this.onLeave(event));
+      const countryCode = path.getAttribute('id'); 
+      if (countryCode) {
+        this.renderer.listen(path, 'mouseover', (event) => this.onHover(event, countryCode)); 
+        this.renderer.listen(path, 'mouseout', (event) => this.onLeave(event));  
+      }
     });
   }
 }
+
 
 
 
