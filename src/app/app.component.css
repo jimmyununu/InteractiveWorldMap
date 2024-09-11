@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    gap: 20px; 
+  }
+  
+  .map-column {
+    flex: 2; 
+  }
+  
+  .info-column {
+    flex: 1; 
+    overflow-y: auto; 
+  }
