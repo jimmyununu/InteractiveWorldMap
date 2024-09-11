@@ -9,6 +9,7 @@ import { CountryService } from './country.service';
   standalone: true,
   imports: [CommonModule]
 })
+
 export class AppComponent implements OnInit {
   countries: any[] = [];
 
