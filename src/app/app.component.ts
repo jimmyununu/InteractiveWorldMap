@@ -1,13 +1,29 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CountryService } from './country.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
-export class AppComponent {
-  title = 'interactiveMap';
+export class AppComponent implements OnInit {
+  countries: any[] = [];
+
+  constructor(private countryService: CountryService) {}
+
+  ngOnInit(): void {
+    this.countryService.getCountries().subscribe(
+      (data) => {
+        console.log('API Data:', data); 
+        this.countries = data[1];  
+      },
+      (error) => {
+        console.error('API Error:', error);  
+      }
+    );
+  }
 }
+

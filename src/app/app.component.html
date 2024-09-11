@@ -1,6 +1,15 @@
-
-
 <img src="map.svg" alt="World Map">
 
+<div *ngFor="let country of countries">
+  <h3>{{ country.name }}</h3>
+  <p>Capital: {{ country.capitalCity }}</p>
+  <p>Region: {{ country.region.value }}</p>
+  <p>Income Level: {{ country.incomeLevel.value }}</p>
+  <p>Lending Type: {{ country.lendingType.value }}</p>
+  <p>ISO Code: {{ country.iso2Code }}</p>
+</div>
 
-<router-outlet /> 
+
+
+
+
